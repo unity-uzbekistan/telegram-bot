@@ -2,22 +2,8 @@
 $path = "https://api.telegram.org/bot1235771809:AAFOeA8DfjpAtDRZTBCZ78Lum4UnuzCsofs";
 $update = json_decode(file_get_contents("php://input"), TRUE);
 
-
 $chatId = $update["message"]["chat"]["id"];
 $message = $update["message"]["text"];
-
-$commands = array(
-	"/start",
-	"",
-	"/",
-	"/",
-	"/",
-	"/",
-	"/",
-	"/",
-	"/",
-	"/",
-);
 
 function sendText($response,$chatId) {
 $path = $GLOBALS['path'];
@@ -40,7 +26,9 @@ function buttonHandler($chatId,$message) {
 	$keyboard = [
     'inline_keyboard' => [
         [
-            ['text' => 'demo', 'callback_data' => 'someString']
+            ['text' => 'English', 'callback_data' => 'en'],
+			['text' => 'O\'zbekcha', 'callback_data' => 'uz'],
+			['text' => 'Русский', 'callback_data' => 'ru']
         ]
 	]
 ];
@@ -49,4 +37,10 @@ function buttonHandler($chatId,$message) {
 }
 
 buttonHandler($chatId,$message);
+if(isset($update['callback_query'])) {
+	$callback_query = $update['callback_query']['data'];
+	$chatId = $update['callback_query']['from']['id'];
+	$response = 'Tanlangan til: '.$callback_query;
+	sendText($response,$chatId);
+}
 ?>
